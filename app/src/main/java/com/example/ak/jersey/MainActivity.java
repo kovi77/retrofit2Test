@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -31,17 +34,17 @@ public class MainActivity extends AppCompatActivity {
 
     private void attemptLogin() {
 
-        final Call<User> call = WebServices.webServices.user();
+        final Call<List<User>> call = WebServices.webServices.users();
 
-        call.enqueue(new Callback<User>() {
+        call.enqueue(new Callback<List<User>>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                User u = response.body();
-                label.setText(u.getEmail());
+            public void onResponse(Call<List<User>>  call, Response<List<User>> response) {
+                List<User> u = response.body();
+                label.setText(u.toString());
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
+            public void onFailure(Call<List<User>> call, Throwable t) {
                 label.setText(t.getMessage());
             }
         });
