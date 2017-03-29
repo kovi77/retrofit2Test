@@ -4,10 +4,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
-
 import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -15,24 +14,36 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
     TextView label;
-    Button button;
+    Button get;
+    Button post;
+    EditText name;
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         label = (TextView) findViewById(R.id.label);
-        button = (Button) findViewById(R.id.button2);
+        get = (Button) findViewById(R.id.button2);
+        post = (Button) findViewById(R.id.button);
+        name = (EditText) findViewById(R.id.editText);
 
-        button.setOnClickListener(new View.OnClickListener() {
+        get.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                attemptLogin();
+                get();
+            }
+        });
+
+        post.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                post();
             }
         });
     }
 
-    private void attemptLogin() {
+    private void get() {
 
         final Call<List<User>> call = WebServices.webServices.users();
 
@@ -49,4 +60,28 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+    private void post() {
+        User u;/* = new User("new@new.new","new",3,"new","new");
+        List<User> l = new ArrayList<>();
+        u.setFirstName(name.getText().toString());
+        l.add(u);*/
+        u =  new User("new@new.new","new",3,"new","new");
+        u.setEmail(name.getText().toString());
+        final  Call<LoginResult> call = WebServices.webServices.postUsers(u);
+
+        call.enqueue(new Callback<LoginResult>(){
+            @Override
+            public void onResponse(Call<LoginResult>  call, Response<LoginResult> response) {
+                label.setText(response.toString());
+                System.out.println(response.toString());
+            }
+
+            @Override
+            public void onFailure(Call<LoginResult> call, Throwable t) {
+                label.setText(t.getMessage());
+                System.out.println(t.getMessage());
+            }
+        });
+    }
+
 }
