@@ -25,7 +25,7 @@ interface WebServices {
 
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(baseUrl)
-            .client(ConnectionFactory.getUnsafeOkHttpClient())
+            .client(ConnectionFactory.getHttpClient())
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build();
 
