@@ -17,7 +17,7 @@ import retrofit2.http.POST;
  * Created by ak on 2017. 03. 16..
  */
 interface WebServices {
-    String baseUrl = "http://10.0.2.2:8080/iszn/";
+    String baseUrl = "https://10.0.2.2:8443/iszn/";
 
     Gson gson = new GsonBuilder()
             .setLenient()
@@ -25,6 +25,7 @@ interface WebServices {
 
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(baseUrl)
+            .client(ConnectionFactory.getUnsafeOkHttpClient())
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build();
 
