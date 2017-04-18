@@ -1,5 +1,10 @@
 package com.example.ak.jersey;
 
+import com.franmontiel.persistentcookiejar.ClearableCookieJar;
+import com.franmontiel.persistentcookiejar.PersistentCookieJar;
+import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
+import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
+
 import java.io.IOException;
 
 import java.io.InputStream;
@@ -27,6 +32,8 @@ import okhttp3.OkHttpClient;
  */
 
 public class ConnectionFactory {
+
+
 
     public static OkHttpClient getHttpClient() {
 
@@ -63,6 +70,11 @@ public class ConnectionFactory {
                     return true;
                 }
             });
+
+
+            ClearableCookieJar cookieJar =
+                    new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(MainActivity.getContext()));
+            builder.cookieJar(cookieJar);
 
             OkHttpClient okHttpClient = builder.build();
             return okHttpClient;

@@ -1,17 +1,15 @@
 package com.example.ak.jersey;
 
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 /**
  * Created by ak on 2017. 03. 16..
@@ -31,11 +29,14 @@ interface WebServices {
 
     WebServices webServices = retrofit.create(WebServices.class);
 
-    @GET("rest/users/get")
+
+
+    @GET("rest/secured/users/get")
     Call<List<User>> users();
 
-    @POST("rest/users/send")
-    Call<LoginResult> postUsers(@Body User u);
+    @POST("rest/login?")
+    Call<Void> postUsers(@Query("iszn_user") String email, @Query("iszn_password") String pass);
+
 
 
 }
